@@ -1,22 +1,18 @@
 {
-  "name": "backend",
+  "name": "incident-backend",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Incident Management Backend",
+  "main": "src/server.js",
+  "type": "commonjs",
   "scripts": {
     "dev": "nodemon src/server.js",
     "start": "node src/server.js",
+    "seed": "node prisma/seed.js",
+    "postinstall": "prisma generate"
+  },
+  "prisma": {
     "seed": "node prisma/seed.js"
   },
-  
-  "prisma": {
-  "seed": "node prisma/seed.js"
-  },
-
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "commonjs",
   "dependencies": {
     "@faker-js/faker": "^9.9.0",
     "@prisma/client": "^5.22.0",
@@ -24,8 +20,10 @@
     "dotenv": "^17.3.1",
     "express": "^5.2.1",
     "faker": "^6.6.6",
-    "nodemon": "^3.1.11",
     "prisma": "^5.22.0",
     "uuid": "^13.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.11"
   }
 }
