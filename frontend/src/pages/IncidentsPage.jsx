@@ -69,24 +69,26 @@ function IncidentsPage() {
   if (loading) return <h2>Loading... Please Wait</h2>;
 
   return (
-    <div className="max-w-6xl mx-auto">
-      <h1 className="text-2xl font-bold mb-6">Incidents List</h1>
+    <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h1 className="text-2xl sm:text-3xl font-bold mb-6">Incidents List</h1>
 
-      {/* Filters */}
-      <div className="bg-white p-4 rounded-lg shadow mb-6 flex flex-wrap gap-6">
+      <div
+        className="bg-white p-4 rounded-lg shadow mb-6 
+                    flex flex-col sm:flex-row sm:flex-wrap gap-4 sm:items-center"
+      >
         <input
           name="search"
           placeholder="Search incidents..."
           value={filters.search}
           onChange={handleChange}
-          className="border p-2 rounded w-60"
+          className="border p-2 rounded w-full sm:w-64"
         />
 
         <select
           name="severity"
           value={filters.severity}
           onChange={handleChange}
-          className="border p-2 rounded"
+          className="border p-2 rounded w-full sm:w-auto"
         >
           <option value="">All Severity</option>
           <option value="SEV1">SEV1</option>
@@ -95,33 +97,49 @@ function IncidentsPage() {
         </select>
 
         <select
+          name="status"
+          value={filters.status}
+          onChange={handleChange}
+          className="border p-2 rounded w-full sm:w-auto"
+        >
+          <option value="">All Status</option>
+          <option value="OPEN">OPEN</option>
+          <option value="RESOLVED">RESOLVED</option>
+          <option value="MITIGATED">MITIGATED</option>
+        </select>
+
+        <select
           name="order"
           value={filters.order}
           onChange={handleChange}
-          className="border p-2 rounded"
+          className="border p-2 rounded w-full sm:w-auto"
         >
           <option value="desc">Newest First</option>
           <option value="asc">Oldest First</option>
         </select>
-
-        <select
-        name="status"
-        value={filters.status}
-        onChange={handleChange}
-        className="border p-2 rounded"
-      >
-        <option value="">All Status</option>
-        <option value="OPEN">OPEN</option>
-        <option value="RESOLVED">RESOLVED</option>
-        <option value="MITIGATED">MITIGATED</option>
-      </select>
-
       </div>
 
-      
+      <div className="sm:hidden space-y-4">
+        {incidents.map((inc) => (
+          <Link key={inc.id} to={`/incident/${inc.id}`}>
+            <div className="bg-white p-4 rounded-lg shadow hover:shadow-lg transition">
+              <h2 className="font-bold text-lg text-blue-700">{inc.title}</h2>
+              <p className="text-sm text-gray-500">{inc.service}</p>
 
-      {/* Table */}
-      <div className="bg-white rounded-lg shadow overflow-hidden">
+              <div className="flex justify-between mt-3 text-sm">
+                <span className="font-semibold">{inc.severity}</span>
+                <span>{inc.owner}</span>
+              </div>
+
+              <div className="mt-2 text-xs text-gray-500">
+                Status: {inc.status}
+              </div>
+            </div>
+          </Link>
+        ))}
+      </div>
+
+      <div className="hidden sm:block bg-white rounded-lg shadow overflow-hidden">
         <table className="w-full">
           <thead className="bg-gray-50">
             <tr className="text-left">
@@ -129,7 +147,7 @@ function IncidentsPage() {
               <th className="p-4">Service</th>
               <th className="p-4">Severity</th>
               <th className="p-4">Owner</th>
-              <th className="p-4">Status</th> 
+              <th className="p-4">Status</th>
             </tr>
           </thead>
 
@@ -142,16 +160,18 @@ function IncidentsPage() {
                 <td className="p-4">{inc.service}</td>
                 <td className="p-4">{inc.severity}</td>
                 <td className="p-4">{inc.owner}</td>
-                 <td className="p-4">{inc.status}</td>
+                <td className="p-4">{inc.status}</td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
 
-      {/* Pagination */}
-      <div className="flex justify-between mt-6">
-        <button onClick={prevPage} className="px-4 py-2 bg-gray-300 rounded">
+      <div className="flex flex-col sm:flex-row gap-4 sm:justify-between items-center mt-6">
+        <button
+          onClick={prevPage}
+          className="px-4 py-2 bg-gray-300 rounded w-full sm:w-auto"
+        >
           Prev
         </button>
 
@@ -161,7 +181,7 @@ function IncidentsPage() {
 
         <button
           onClick={nextPage}
-          className="px-4 py-2 bg-blue-600 text-white rounded"
+          className="px-4 py-2 bg-blue-600 text-white rounded w-full sm:w-auto"
         >
           Next
         </button>
